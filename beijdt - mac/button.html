@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            -webkit-app-region: drag;
+        }
+        #unlockBtn {
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 8px;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            cursor: pointer;
+            border: 3px solid white;
+            -webkit-app-region: no-drag;
+            pointer-events: auto;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #unlockBtn:hover {
+            background: #3a8fd4;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button id="unlockBtn"><i class="fas fa-unlock-alt"></i></button>
+    <script>
+        const electron = window.electronAPI;
+        if (electron) {
+            const btn = document.getElementById('unlockBtn');
+            btn.addEventListener('click', () => {
+                electron.send('request-unlock');
+            });
+            // 发送鼠标进入/离开事件给主进程
+            btn.addEventListener('mouseenter', () => {
+                electron.send('button-mouse-enter');
+            });
+            btn.addEventListener('mouseleave', () => {
+                electron.send('button-mouse-leave');
+            });
+        }
+    </script>
+</body>
+</html>
